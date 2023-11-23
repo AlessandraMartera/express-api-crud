@@ -1,11 +1,9 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient;
-const arrayDb = prisma.post.findMany()
-.then()
-.catch()
 
-module.exports = function (str) {
+module.exports = async function (str) {
  
+    const arrayDb = await prisma.post.findMany().then().catch()
     
     let resultToLawerCase = str.toLowerCase();
 
@@ -13,36 +11,28 @@ module.exports = function (str) {
     // faccio diventrare la stringa un array
     .split("")
     // mappo l'array carattere per carattere
-    .map((char) => {
-        if(char == " "){
-            return "-"
-        }
-        return char
-    })
+    .map((char) => (char === " " ? "-" : char))
     // faccio tornare di nuovo una stringa
     .join('');
 
-    // createSlug dovrebbe incrementare di 1 lo slug quando esiste già
-    /*
-    const arraySlug = arrayDb.map( items => items.slug)
- 
-    if(arraySlug.includes(result)){
-        const counterArrayResult = result.split("");
-        counterArrayResult.push("-");
-        counterArrayResult.push(1)
-        result = counterArrayResult.join("");
-        // console.log(counterArrayResult);
-    }
-
-    const arrayTitle = arrayDb.map( items => items.title)
-
-    arrayTitle.forEach((items, idx)  => {
-        if(items === "" || typeof items !== 'string' || !items){
-            throw new Error(`title not found`)
-        }
-    })
     
- */
+    // createSlug dovrebbe incrementare di 1 lo slug quando esiste già
+    
+    const arraySlug = arrayDb.map((items) => items.slug);
+    // let finalResult = result;
+
+  
+      
+        let counter = 1;
+        while (arraySlug.includes(`${result}-${counter}`)) {
+         
+            counter++;
+        }
+        result = `${result}-${counter}`;
+
 
     return result
 }
+
+
+
