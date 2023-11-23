@@ -1,6 +1,8 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient;
 
+const createSlug = require("../utilities/creatSlug")
+
 async function index(req, res) {
 
     const data = await prisma.post.findMany()
@@ -35,10 +37,12 @@ async function store(req, res) {
 
     const newPost = req.body;
 
+    const slug = createSlug(newPost.title);
+
     const data = await prisma.post.create({
         data:{
             "title": newPost.title,  
-            "slug": newPost.slug,   
+            "slug": slug,   
             "image": newPost.image,  
             "content": newPost.content,
             "published": newPost.published
