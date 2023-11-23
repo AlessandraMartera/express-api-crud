@@ -4,6 +4,7 @@ const app = express();
 
 const RouterPost = require('./routers/Posts');
 
+app.use(express.json());
 
 app.use("/posts", RouterPost);
 
