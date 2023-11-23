@@ -4,6 +4,10 @@ const postsController = require('../controllers/posts');
 
 router.get('/', postsController.index);
 
+router.get('/published', postsController.indexPublished);
+
+router.get('/search_title/:title', postsController.search_title);
+
 router.get('/:id', postsController.show);
 
 router.post('/', postsController.store);

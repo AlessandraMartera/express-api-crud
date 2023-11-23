@@ -13,6 +13,36 @@ async function index(req, res) {
     res.json(data)
 }
 
+async function indexPublished(req, res) {
+
+    const data = await prisma.post.findMany({
+        where: {
+            "published" : true
+        }
+    })
+    .then()
+    .catch()
+
+    console.log("index");
+    res.json(data)
+}
+
+async function search_title(req, res) {
+
+    const {title} = req.params
+
+    const data = await prisma.post.findMany({
+        where: {
+            "title" : `${title}`
+        }
+    })
+    .then()
+    .catch()
+
+    console.log("index");
+    res.json(data)
+}
+
 async function show(req, res) {
     const { id } = req.params;
     const data = await prisma.post.findUnique({
@@ -92,6 +122,8 @@ async function destroy(req, res) {
 
 module.exports = {
     index,
+    indexPublished,
+    search_title,
     show,
     store,
     update,
