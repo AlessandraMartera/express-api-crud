@@ -15,21 +15,15 @@ module.exports = async function (str) {
     // faccio tornare di nuovo una stringa
     .join('');
 
-    
     // createSlug dovrebbe incrementare di 1 lo slug quando esiste già
-    
     const arraySlug = arrayDb.map((items) => items.slug);
-    // let finalResult = result;
 
-  
-      
+    if(arraySlug.includes(result)){ 
         let counter = 1;
-        while (arraySlug.includes(`${result}-${counter}`)) {
-         
-            counter++;
-        }
+        while (arraySlug.includes(`${result}-${counter}` || result)) {
+        counter++;
         result = `${result}-${counter}`;
-
+    }}
 
     return result
 }

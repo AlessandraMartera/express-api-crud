@@ -5,7 +5,27 @@ const createSlug = require("../utilities/creatSlug")
 
 async function index(req, res) {
 
-    const data = await prisma.post.findMany()
+    const filters = req.query.filter;
+    const  queryFilter = {}
+
+    if(filters && filters.title){
+        queryFilter.title = { contains: filters.title };
+    }
+
+    if(filters && filters.published){
+        queryFilter.publishedFilter = filters.published === "true" || filters.published === "1";
+    }
+
+    if(filters){
+        const data = await prisma.post.findMany({
+            where: queryFilter
+        })
+        .then()
+        .catch()
+    }
+   
+
+    const data = await prisma.post.findMany({})
     .then()
     .catch()
 
@@ -43,7 +63,7 @@ async function search_title(req, res) {
     res.json(data)
 }
 
-async function show(req, res) {
+async function show(req, res, next) {
     const { id } = req.params;
     const data = await prisma.post.findUnique({
         where: {
@@ -54,7 +74,8 @@ async function show(req, res) {
     .catch()
 
     if(!data){
-        res.status(404).end("Not Found")
+        res.status(404).end("Post not Found")
+        next(new Error("post not found"))
     } else{
         res.json(data)
     }
