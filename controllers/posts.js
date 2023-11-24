@@ -3,9 +3,10 @@ const prisma = new PrismaClient;
 
 const createSlug = require("../utilities/creatSlug")
 
+
 async function index(req, res) {
 
-    const filters = req.query.filter;
+    const filters = req.query.filters;
     const  queryFilter = {}
 
     if(filters && filters.title){
@@ -13,23 +14,14 @@ async function index(req, res) {
     }
 
     if(filters && filters.published){
-        queryFilter.publishedFilter = filters.published === "true" || filters.published === "1";
+        queryFilter.publishedFilter = { equals: filters.published === "true" || filters.published === "1" };
     }
-
-    if(filters){
-        const data = await prisma.post.findMany({
+    const data = await prisma.post.findMany({
             where: queryFilter
-        })
+    })
         .then()
         .catch()
-    }
-   
 
-    const data = await prisma.post.findMany({})
-    .then()
-    .catch()
-
-    console.log("index");
     res.json(data)
 }
 
