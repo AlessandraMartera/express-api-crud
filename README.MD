@@ -1,5 +1,5 @@
 # Definizione degli endpoint
-\\ Definire i seguenti endpoint:
+\ Definire i seguenti endpoint:
 
 1. POST /posts per creare un nuovo post.
 2. GET /posts/:slug per recuperare un post utilizzando il suo slug.
